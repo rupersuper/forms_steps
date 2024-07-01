@@ -8,9 +8,14 @@ type Workout = {
 type TableProps = {
   workouts: Workout[];
   deleteWorkout: (date: string) => void;
+  editWorkout: (workout: Workout) => void;
 };
 
-const Table: React.FC<TableProps> = ({ workouts, deleteWorkout }) => {
+const Table: React.FC<TableProps> = ({
+  workouts,
+  deleteWorkout,
+  editWorkout,
+}) => {
   const sortedWorkouts = [...workouts].sort((a, b) => {
     return moment(a.date, "YYYY-MM-DD").isBefore(moment(b.date, "YYYY-MM-DD"))
       ? 1
@@ -32,7 +37,9 @@ const Table: React.FC<TableProps> = ({ workouts, deleteWorkout }) => {
             <td>{moment(workout.date).format("DD.MM.YY")}</td>
             <td>{workout.distance}</td>
             <td>
-              <button className="edit">✏️</button>
+              <button onClick={() => editWorkout(workout)} className="edit">
+                ✏️
+              </button>
               <button
                 onClick={() => deleteWorkout(workout.date)}
                 className="delete"
